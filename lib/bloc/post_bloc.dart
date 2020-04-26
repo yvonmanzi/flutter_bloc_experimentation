@@ -1,21 +1,37 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_infinite_list/Model/post.dart';
 import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final http.Client httpClient;
 
+  PostBloc({@required this.httpClient});
+
   @override
   PostState get initialState => PostUninitialized();
+
+  @override
+  Stream<Transition<PostEvent, PostState>> transformEvents(
+    Stream<PostEvent> events,
+    TransitionFunction<PostEvent, PostState> transitionFn,
+  ) {
+    return super.transformEvents(
+      events.debounceTime(const Duration(milliseconds: 500)),
+      transitionFn,
+    );
+  }
 
   // this is fired every time an event is added.
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
-    final currentState = state;
+    final PostState currentState = state;
     if (event is Fetch && !_hasReachedMax(currentState)) {
       try {
         if (currentState is PostUninitialized) {
@@ -35,15 +51,16 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       } catch (_) {
         yield PostError();
       }
-
-      bool _hasReachedMax(PostState state) {
-        return state is PostLoaded && state.hasReachedMax;
-      }
     }
   }
 
-  _fetchPosts(int length, int i) async {
-    final response = await httpClient.get('https://jsonplaceholder.');
+  bool _hasReachedMax(PostState state) {
+    return state is PostLoaded && state.hasReachedMax;
+  }
+
+  _fetchPosts(int startIndex, int limit) async {
+    final response = await httpClient.get(
+        'https://jsonplaceholder.typicode.com/posts?_start=$startIndex&_limit=$limit');
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       return data

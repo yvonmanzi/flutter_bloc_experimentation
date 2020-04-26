@@ -22,6 +22,7 @@ class PostLoaded extends PostState {
     List<Post> posts,
     bool hasReachedMax,
   }) {
+    // ?? checks if the optional positional argument was supplied
     return PostLoaded(
       posts: posts ?? this.posts,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
