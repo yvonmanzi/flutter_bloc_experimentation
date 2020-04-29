@@ -27,6 +27,7 @@ dependencies:
   equatable:
   meta:
   http:
+  rxdart:
 
 
 
