@@ -22,10 +22,10 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
-  bloc:
+  src.repo.src.bloc:
     dependency: transitive
     description:
-      name: bloc
+      name: src.repo.src.bloc
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
