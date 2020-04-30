@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_login/repo/user_repo.dart';
+import 'package:meta/meta.dart';
 
+import '../repository/user_repo.dart';
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 
@@ -11,10 +12,10 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository userRepo;
 
-  AuthenticationBloc({@required this.userRepo})
+  AuthenticationBloc({@required this.userRepo});
 
   @override
-  get initialState => AuthenticationUninitialized();
+  AuthenticationState get initialState => AuthenticationUninitialized();
 
   @override
   Stream<AuthenticationState> mapEventToState(

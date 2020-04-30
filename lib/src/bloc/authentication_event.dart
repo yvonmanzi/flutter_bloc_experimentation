@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 
 abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -13,6 +14,7 @@ class LogIn extends AuthenticationEvent {
   final String token;
 
   const LogIn({@required this.token});
+
   @override
   List<Object> get props => [token];
 
