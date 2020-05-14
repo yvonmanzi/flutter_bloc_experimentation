@@ -1,92 +1,72 @@
-class ItemModel {
-  int _page;
-  int _totalResults;
-  int _totalPages;
-  List<_Result> _results = [];
+import 'package:json_annotation/json_annotation.dart';
 
-  ItemModel.fromJson(Map<String, dynamic> parsedJson) {
-    print(parsedJson['results'].length);
-    _page = parsedJson['page'];
-    _totalPages = parsedJson['total_pages'];
-    _totalResults = parsedJson['total_results'];
-    List<_Result> temp = [];
-    for (int i = 0; i < parsedJson['results'].length; i++) {
-      _Result result = _Result(parsedJson['results'][i]);
-      temp.add(result);
-    }
-    _results = temp;
-  }
+part 'item_model.g.dart';
 
-  List<_Result> get results => _results;
+@JsonSerializable()
+class Movie {
+  final int id;
+  final bool video;
+  @JsonKey(name: 'vote_count')
+  final int voteCount;
+  @JsonKey(name: 'vote_average')
+  final int voteAverage;
+  final String title;
+  @JsonKey(name: 'release_date')
+  final String releaseDate;
+  @JsonKey(name: 'original_language')
+  final String originalLanguage;
+  @JsonKey(name: 'original_title')
+  final String originalTitle;
+  @JsonKey(name: 'genre_ids')
+  final List<int> genreIds;
+  @JsonKey(name: 'backdrop_path')
+  final String backdropPath;
+  final bool adult;
+  final String overview;
+  @JsonKey(name: 'poster_path')
+  final String posterPath;
+  final int popularity;
+  @JsonKey(name: 'media_type')
+  final mediaType;
 
-  int get totalPages => _totalPages;
+  Movie(
+      this.id,
+      this.video,
+      this.voteCount,
+      this.voteAverage,
+      this.title,
+      this.releaseDate,
+      this.originalLanguage,
+      this.originalTitle,
+      this.genreIds,
+      this.backdropPath,
+      this.adult,
+      this.overview,
+      this.posterPath,
+      this.popularity,
+      this.mediaType);
 
-  int get totalResults => _totalResults;
+  factory Movie.fromJson(Map<String, dynamic> json) => _$MovieFromJson(json);
 
-  int get page => _page;
+  Map<String, dynamic> toJson() => _$MovieToJson(this);
 }
 
-class _Result {
-  int _voteCount;
-  int _id;
-  bool _video;
-  var _voteAverage;
-  String _title;
-  double _popularity;
-  String _posterPath;
-  String _originalLanguage;
-  String _originalTitle;
-  List<int> _genreIds = [];
-  String _backdropPath;
-  bool _adult;
-  String _overview;
-  String _releaseDate;
+@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
+class MovieDBTrendingApiResult {
+  @JsonKey(name: 'total_pages')
+  final int totalPages;
+  @JsonKey(name: 'total_results')
+  final int totalResults;
+  final int page;
+  @JsonKey(name: 'results')
+  final List<Movie> movieList;
 
-  _Result(Map<String, dynamic> result) {
-    _voteCount = result['vote_count'];
-    _id = result['id'];
-    _video = result['video'];
-    _voteAverage = result['vote_average'];
-    _title = result['title'];
-    _popularity = result['popularity'];
-    _posterPath = result['poster_path'];
-    _originalLanguage = result['original_language'];
-    _originalTitle = result['original_title'];
+  MovieDBTrendingApiResult(
+      this.totalPages, this.totalResults, this.page, this.movieList);
 
-    for (int i = 0; i < result['genre_ids'].length; i++) {
-      _genreIds.add(result['genre_ids'][i]);
-    }
-    _backdropPath = result['backdrop_path'];
-    _adult = result['adult'];
-    _overview = result['overview'];
-    _releaseDate = result['release_date'];
-  }
+  factory MovieDBTrendingApiResult.fromJson(Map<String, dynamic> json) =>
+      _$MovieDBTrendingApiResultFromJson(json);
 
-  String get releaseDate => _releaseDate;
-
-  String get overview => _overview;
-
-  bool get adult => _adult;
-
-  String get backdropPath => _backdropPath;
-
-  List<int> get genreIds => _genreIds;
-
-  String get originalTitle => _originalTitle;
-
-  String get originalLanguage => _originalLanguage;
-
-  String get posterPath => _posterPath;
-
-  double get popularity => _popularity;
-
-  String get title => _title;
-
-  get voteAverage => _voteAverage;
-
-  bool get video => _video;
-
-  int get id => _id;
-
-  int get voteCount => _voteCount;
+  Map<String, dynamic> toJson() => _$MovieDBTrendingApiResultToJson(this);
 }

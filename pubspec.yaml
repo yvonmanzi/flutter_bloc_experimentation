@@ -28,6 +28,7 @@ dependencies:
   meta:
   http:
   rxdart:
+  json_annotation:
 
 
 
@@ -38,6 +39,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  json_serializable:
+  build_runner:
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
