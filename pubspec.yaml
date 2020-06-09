@@ -29,6 +29,7 @@ dependencies:
   http:
   rxdart:
   json_annotation:
+  bloc:
 
 
 
